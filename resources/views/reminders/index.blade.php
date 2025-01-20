@@ -34,6 +34,19 @@
                 </div>
             </div>
 
+            <!-- Filtro por etiqueta -->
+            <div class="mb-6">
+                <form method="GET" action="{{ route('reminders.index') }}" class="flex items-center space-x-2">
+                    <label for="label_filter" class="text-gray-700 dark:text-gray-200">Filter by Label:</label>
+                    <input type="text" name="label" id="label_filter" value="{{ request('label') }}"
+                           class="px-4 py-2 border rounded-md focus:ring focus:ring-blue-500"
+                           placeholder="e.g., Work, Personal">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+                        Filter
+                    </button>
+                </form>
+            </div>
+
 
             <!-- Contenedor de la lista -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md">
@@ -46,6 +59,7 @@
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-800 dark:text-gray-200">Priority</th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-800 dark:text-gray-200">Status</th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-800 dark:text-gray-200">Due Date</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium text-gray-800 dark:text-gray-200">Label</th>
                         <th class="px-6 py-3 text-left text-sm font-medium text-gray-800 dark:text-gray-200">Actions</th>
                     </tr>
                     </thead>
@@ -60,7 +74,6 @@
                         </tr>
                     @endforelse
                     </tbody>
-
                 </table>
             </div>
         </div>

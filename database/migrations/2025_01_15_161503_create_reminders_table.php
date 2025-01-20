@@ -17,7 +17,9 @@ return new class extends Migration
             $table->enum('type', ['Task', 'Event']);
             $table->enum('priority', ['High', 'Medium', 'Low']);
             $table->enum('status', ['Completed', 'In progress', 'Pending']);
+            $table->string('label')->nullable();
             $table->dateTimeTz('due_date');
+            $table->string('label')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

@@ -10,9 +10,17 @@ class ReminderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $reminders = Reminder::all();
+        $query = Reminder::query();
+
+        // Filtrar por etiqueta si se proporciona
+        if ($request->has('label') && $request->label) {
+            $query->where('label', 'like', '%' . $request->label . '%');
+        }
+
+        $reminders = $query->get();
+
         return view('reminders.index', compact('reminders'));
     }
 
@@ -26,10 +34,11 @@ class ReminderController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'type' => 'required|in:task,event',
-            'priority' => 'required|in:high,medium,low',
-            'status' => 'required|in:completed,in-progress,pending',
-            'due_date' => 'required|date_format:Y-m-d\TH:i',
+            'type' => 'required|in:Task,Event', // Conserva la capitalización correcta de las opciones
+            'priority' => 'required|in:High,Medium,Low',
+            'status' => 'required|in:Completed,In progress,Pending',
+            'due_date' => 'required|date',
+            'label' => 'nullable|string|max:255', // Asegura que 'label' sea validado correctamente
             'user_id' => 'required|exists:users,id',
         ]);
 
@@ -66,6 +75,7 @@ class ReminderController extends Controller
             'priority' => 'required|in:High,Medium,Low',
             'status' => 'required|in:Completed,In progress,Pending',
             'due_date' => 'required|date',
+            'label' => 'nullable|string|max:255',
             'user_id' => 'required|exists:users,id',
         ]);
 

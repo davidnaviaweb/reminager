@@ -42,6 +42,17 @@
             <input type="datetime-local" id="due_date" name="due_date" required value="2025-01-25T10:00"
                    class="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
         </div>
+
+        <!-- Campo para 'Label' -->
+        <div class="mb-4">
+            <label for="label" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Label</label>
+            <input type="text" name="label" id="label"
+                   value="{{ old('label', $reminder->label ?? '') }}"
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                   placeholder="e.g., Work, Personal, Urgent">
+        </div>
+
+        <!-- Botones -->
         <div class="flex justify-end space-x-2">
             <button type="submit"
                     class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

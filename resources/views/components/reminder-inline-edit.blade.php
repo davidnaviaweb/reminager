@@ -76,6 +76,18 @@
         </template>
     </td>
 
+    <!-- Etiqueta -->
+    <td class="px-6 py-4 text-gray-800 dark:text-gray-200">
+        <template x-if="!isEditing">
+            <span class="px-2 py-1 rounded bg-blue-100 text-blue-800">
+                {{ $reminder->label ?? 'N/A' }}
+            </span>
+        </template>
+        <template x-if="isEditing">
+            <input type="text" name="label" value="{{ $reminder->label }}" class="w-full px-3 py-2 border rounded-md shadow-sm" />
+        </template>
+    </td>
+
     <!-- Botones -->
     <td class="px-6 py-4">
         <div class="flex space-x-2">

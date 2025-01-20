@@ -16,6 +16,7 @@ class Reminder extends Model
         'priority',
         'status',
         'due_date',
+        'label',
         'user_id',
     ];
 }
