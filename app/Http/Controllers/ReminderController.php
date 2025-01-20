@@ -17,25 +17,19 @@ class ReminderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('reminders.create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+        $request->merge(['user_id' => auth()->id()]);
+
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'type' => 'required|in:Task,Event',
-            'priority' => 'required|in:High,Medium,Low',
-            'status' => 'required|in:Completed,In progress,Pending',
-            'due_date' => 'required|date',
+            'type' => 'required|in:task,event',
+            'priority' => 'required|in:high,medium,low',
+            'status' => 'required|in:completed,in-progress,pending',
+            'due_date' => 'required|date_format:Y-m-d\TH:i',
             'user_id' => 'required|exists:users,id',
         ]);
 
