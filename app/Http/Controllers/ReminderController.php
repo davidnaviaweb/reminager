@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Label;
 use App\Models\Reminder;
 use Illuminate\Http\Request;
 
@@ -14,9 +15,20 @@ class ReminderController extends Controller
     {
         $query = Reminder::query();
 
-        // Filtrar por etiqueta si se proporciona
-        if ($request->has('label') && $request->label) {
+        if ($request->filled('label')) {
             $query->where('label', 'like', '%' . $request->label . '%');
+        }
+
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+
+        if ($request->filled('priority')) {
+            $query->where('priority', $request->priority);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
         }
 
         $reminders = $query->get();
@@ -29,6 +41,7 @@ class ReminderController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->merge(['user_id' => auth()->id()]);
 
         $request->validate([
@@ -38,11 +51,16 @@ class ReminderController extends Controller
             'priority' => 'required|in:High,Medium,Low',
             'status' => 'required|in:Completed,In progress,Pending',
             'due_date' => 'required|date',
-            'label' => 'nullable|string|max:255', // Asegura que 'label' sea validado correctamente
+            'labels' => 'nullable|array',
+            'labels.*' => 'integer|exists:labels,id',
             'user_id' => 'required|exists:users,id',
         ]);
 
-        Reminder::create($request->all());
+        $reminder = Reminder::create($request->all());
+
+        if ($request->filled('labels')) {
+            $reminder->labels()->attach($request->labels);
+        }
 
         return redirect()->route('reminders.index')->with('success', 'Reminder created successfully.');
     }

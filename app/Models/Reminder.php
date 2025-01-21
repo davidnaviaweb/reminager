@@ -16,7 +16,11 @@ class Reminder extends Model
         'priority',
         'status',
         'due_date',
-        'label',
         'user_id',
     ];
+
+    public function labels()
+    {
+        return $this->belongsToMany(Label::class);
+    }
 }
