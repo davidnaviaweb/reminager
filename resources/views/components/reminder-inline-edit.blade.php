@@ -80,25 +80,47 @@
     </td>
 
 
-    <!-- Etiqueta -->
     <td class="px-6 py-4 text-gray-800 dark:text-gray-200">
+        <!-- Modo de visualización -->
         <template x-if="!isEditing">
             <div class="flex flex-wrap gap-1 justify-around">
                 @foreach($reminder->labels as $label)
-                    <x-label-badge :label="$label"/>
+                    <x-label-badge :label="$label" />
                 @endforeach
             </div>
         </template>
+
+        <!-- Modo de edición -->
         <template x-if="isEditing">
-            <select name="labels[]" multiple class="w-full px-3 py-2 border rounded-md shadow-sm">
-                @foreach($reminder->labels as $label)
-                    <option value="{{ $label->id }}" selected }}>
-                        {{ $label->name }}
-                    </option>
-                @endforeach
-            </select>
+            <div>
+                <button type="button" class="w-full text-left px-3 py-2 border rounded-md shadow-sm bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        @click="document.getElementById('labels-edit-menu-{{ $reminder->id }}').classList.toggle('hidden')">
+                    Select Labels
+                    <span class="float-right">▼</span>
+                </button>
+                <div id="labels-edit-menu-{{ $reminder->id }}" class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-800 border rounded-md shadow-lg hidden">
+                    @foreach($labels as $label) <!-- Asegúrate de pasar $labels desde la vista -->
+                    <div class="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <input type="checkbox" name="labels[]" value="{{ $label->id }}" id="label-edit-{{ $label->id }}"
+                               class="mr-2" {{ $reminder->labels->contains($label->id) ? 'checked' : '' }}
+                               @change="updateSelectedLabels('{{ $reminder->id }}')">
+                        <label for="label-edit-{{ $label->id }}" class="text-sm text-gray-700 dark:text-gray-300">
+                            <x-label-badge :label="$label" />
+                        </label>
+                    </div>
+                    @endforeach
+                </div>
+
+                <!-- Contenedor de etiquetas seleccionadas -->
+                <div id="selected-labels-{{ $reminder->id }}" class="flex flex-wrap gap-1 mt-2">
+                    @foreach($reminder->labels as $label)
+                        <x-label-badge :label="$label" />
+                    @endforeach
+                </div>
+            </div>
         </template>
     </td>
+
 
     <!-- Botones -->
     <td class="px-6 py-4">
@@ -158,3 +180,23 @@
         </div>
     </td>
 </tr>
+<script>
+    function updateSelectedLabels(reminderId) {
+        const selectedLabelsContainer = document.getElementById(`selected-labels-${reminderId}`);
+        selectedLabelsContainer.innerHTML = '';
+
+        // Obtener todos los checkboxes seleccionados
+        const selectedCheckboxes = document.querySelectorAll(`#labels-edit-menu-${reminderId} input[name="labels[]"]:checked`);
+
+        // Crear badges para cada etiqueta seleccionada
+        selectedCheckboxes.forEach(checkbox => {
+            const labelBadge = checkbox.nextElementSibling.querySelector('span');
+            const badge = document.createElement('span');
+            badge.className = labelBadge.className;
+            badge.style = labelBadge.style.cssText;
+            badge.textContent = labelBadge.textContent;
+
+            selectedLabelsContainer.appendChild(badge);
+        });
+    }
+</script>
