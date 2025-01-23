@@ -30,6 +30,7 @@
                         :on-submit="'showForm = false'"
                         :on-cancel="'showForm = false'"
                         :submit-label="__('Create')"
+                        :labels="$labels"
                     />
                 </div>
             </div>
@@ -39,9 +40,14 @@
                 <form method="GET" action="{{ route('reminders.index') }}" class="flex items-stretch space-x-4">
                     <div class="flex flex-col">
                         <label for="label_filter" class="text-gray-700 dark:text-gray-200">Label:</label>
-                        <input type="text" name="label" id="label_filter" value="{{ request('label') }}"
-                               class="px-4 py-2 border rounded-md focus:ring focus:ring-blue-500"
-                               placeholder="e.g., Work, Personal">
+                        <select name="label" id="label_filter" class="px-4 py-2 border rounded-md focus:ring focus:ring-blue-500">
+                            <option value="">All</option>
+                            @foreach($labels as $label)
+                                <option value="{{ $label->name }}" {{ request('label') == $label->name ? 'selected' : '' }}>
+                                    {{ $label->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="flex flex-col">
                         <label for="type_filter" class="text-gray-700 dark:text-gray-200">Type:</label>
@@ -97,7 +103,7 @@
                     </thead>
                     <tbody>
                     @forelse ($reminders as $reminder)
-                        <x-reminder-inline-edit :reminder="$reminder" />
+                        <x-reminder-inline-edit :reminder="$reminder" :labels="$labels" />
                     @empty
                         <tr>
                             <td colspan="7" class="px-6 py-4 text-center text-gray-600 dark:text-gray-400">

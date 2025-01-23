@@ -16,8 +16,11 @@ class ReminderController extends Controller
         $query = Reminder::query();
 
         if ($request->filled('label')) {
-            $query->where('label', 'like', '%' . $request->label . '%');
+            $query->whereHas('labels', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->label . '%');
+            });
         }
+
 
         if ($request->filled('type')) {
             $query->where('type', $request->type);
@@ -32,8 +35,10 @@ class ReminderController extends Controller
         }
 
         $reminders = $query->get();
+        // Enviar etiquetas
+        $labels = Label::all();
 
-        return view('reminders.index', compact('reminders'));
+        return view('reminders.index', compact('reminders', 'labels'));
     }
 
     /**
@@ -41,13 +46,14 @@ class ReminderController extends Controller
      */
     public function store(Request $request)
     {
+        \Log::info('Datos recibidos en store:', $request->all());
 
         $request->merge(['user_id' => auth()->id()]);
 
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'type' => 'required|in:Task,Event', // Conserva la capitalización correcta de las opciones
+            'type' => 'required|in:Task,Event',
             'priority' => 'required|in:High,Medium,Low',
             'status' => 'required|in:Completed,In progress,Pending',
             'due_date' => 'required|date',
@@ -56,7 +62,10 @@ class ReminderController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
 
-        $reminder = Reminder::create($request->all());
+        \Log::info('Datos validados en store:', $validatedData);
+
+        // Creación del recordatorio
+        $reminder = Reminder::create($validatedData);
 
         if ($request->filled('labels')) {
             $reminder->labels()->attach($request->labels);
@@ -64,6 +73,8 @@ class ReminderController extends Controller
 
         return redirect()->route('reminders.index')->with('success', 'Reminder created successfully.');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -86,21 +97,40 @@ class ReminderController extends Controller
      */
     public function update(Request $request, Reminder $reminder)
     {
-        $request->validate([
+        \Log::info('Datos recibidos para actualizar:', $request->all());
+
+        // Validar los datos del request
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'type' => 'required|in:Task,Event',
             'priority' => 'required|in:High,Medium,Low',
             'status' => 'required|in:Completed,In progress,Pending',
             'due_date' => 'required|date',
-            'label' => 'nullable|string|max:255',
+            'labels' => 'nullable|array', // Permitir etiquetas como un array
+            'labels.*' => 'integer|exists:labels,id', // Validar que las etiquetas existen
             'user_id' => 'required|exists:users,id',
         ]);
 
-        $reminder->update($request->all());
+        \Log::info('Datos validados para actualizar:', $validatedData);
+
+        // Actualizar los campos del recordatorio
+        $reminder->update($validatedData);
+
+        // Actualizar etiquetas asociadas
+        if ($request->filled('labels')) {
+            \Log::info('Etiquetas a sincronizar:', $request->labels);
+            $reminder->labels()->sync($request->labels); // Sincronizar etiquetas
+        } else {
+            \Log::info('No se enviaron etiquetas, eliminando asociaciones existentes.');
+            $reminder->labels()->sync([]); // Eliminar todas las etiquetas si no se enviaron
+        }
+
+        \Log::info('Recordatorio actualizado correctamente:', $reminder->toArray());
 
         return redirect()->route('reminders.index')->with('success', 'Reminder updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.

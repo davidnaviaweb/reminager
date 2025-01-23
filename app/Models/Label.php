@@ -18,6 +18,6 @@ class Label extends Model
 
     public function reminders()
     {
-        return $this->belongsToMany(Reminder::class);
+        return $this->belongsToMany(Reminder::class, 'label_reminder');
     }
 }
