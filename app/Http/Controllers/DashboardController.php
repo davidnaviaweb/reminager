@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Label;
 use Illuminate\Http\Request;
 use App\Models\Reminder;
 
@@ -26,7 +27,9 @@ class DashboardController extends Controller
                 ];
             });
 
-        return view('dashboard', ['events' => $reminders]);
+        $labels = Label::all();
+
+        return view('dashboard', ['events' => $reminders], compact('reminders', 'labels'));
     }
 
 

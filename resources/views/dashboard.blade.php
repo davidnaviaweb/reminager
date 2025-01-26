@@ -10,6 +10,21 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h3 class="text-lg font-bold mb-4">{{ __("Calendar") }}</h3>
+
+                        <select id="priorityFilter" class="rounded border-gray-300">
+                            <option value="">All Priorities</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+
+                        <select id="labelFilter" class="rounded border-gray-300">
+                            <option value="">All Labels</option>
+                            @foreach($labels as $label)
+                                <option value="{{ $label->name }}">{{ $label->name }}</option>
+                            @endforeach
+                        </select>
+
                     <!-- Contenedor del calendario -->
                     <div id="calendar"></div>
                 </div>
