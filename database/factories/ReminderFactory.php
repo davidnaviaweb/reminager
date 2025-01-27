@@ -22,8 +22,8 @@ class ReminderFactory extends Factory
             'type' => $this->faker->randomElement(['Task', 'Event']),
             'priority' => $this->faker->randomElement(['High', 'Medium', 'Low']),
             'status' => $this->faker->randomElement(['Completed', 'In progress', 'Pending']),
-            'due_date' => $this->faker->dateTimeBetween('now', '+1 year'),
-            'user_id' => User::factory(),
+            'due_date' => $this->faker->dateTimeBetween('now', '+1 month'),
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 
