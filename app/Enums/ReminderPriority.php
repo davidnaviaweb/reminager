@@ -4,9 +4,9 @@ namespace App\Enums;
 
 enum ReminderPriority: string
 {
-    case HIGH = 'high';
-    case MEDIUM = 'medium';
-    case LOW = 'low';
+    case HIGH = '1000';
+    case MEDIUM = '100';
+    case LOW = '10';
 
     /**
      * @param string $value

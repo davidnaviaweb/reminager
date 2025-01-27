@@ -38,6 +38,8 @@ class ReminderController extends Controller
             $query->orderBy($sort[0], $sort[1]);
         }
 
+        \Log::info('Query:', (array)$query->toSql());
+
         $reminders = $query->get();
 
         $labels = Label::all();
