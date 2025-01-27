@@ -21,7 +21,6 @@ class ReminderController extends Controller
             });
         }
 
-
         if ($request->filled('type')) {
             $query->where('type', $request->type);
         }
@@ -34,11 +33,16 @@ class ReminderController extends Controller
             $query->where('status', $request->status);
         }
 
+        if($request->filled('sort')) {
+            $sort = explode('.', $request->sort);
+            $query->orderBy($sort[0], $sort[1]);
+        }
+
         $reminders = $query->get();
-        // Enviar etiquetas
+
         $labels = Label::all();
 
-        return view('reminders.index', compact('reminders', 'labels'));
+        return view('reminders.list', compact('reminders', 'labels'));
     }
 
     /**
@@ -59,7 +63,6 @@ class ReminderController extends Controller
             'due_date' => 'required|date',
             'labels' => 'nullable|array',
             'labels.*' => 'integer|exists:labels,id',
-            'user_id' => 'required|exists:users,id',
         ]);
 
         \Log::info('Datos validados en store:', $validatedData);
@@ -72,24 +75,6 @@ class ReminderController extends Controller
         }
 
         return redirect()->route('reminders.index')->with('success', 'Reminder created successfully.');
-    }
-
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Reminder $reminder)
-    {
-        return view('reminders.show', compact('reminder'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Reminder $reminder)
-    {
-        return view('reminders.edit', compact('reminder'));
     }
 
     /**
@@ -107,9 +92,8 @@ class ReminderController extends Controller
             'priority' => 'required|in:High,Medium,Low',
             'status' => 'required|in:Completed,In progress,Pending',
             'due_date' => 'required|date',
-            'labels' => 'nullable|array', // Permitir etiquetas como un array
-            'labels.*' => 'integer|exists:labels,id', // Validar que las etiquetas existen
-            'user_id' => 'required|exists:users,id',
+            'labels' => 'nullable|array',
+            'labels.*' => 'integer|exists:labels,id',
         ]);
 
         \Log::info('Datos validados para actualizar:', $validatedData);
@@ -130,7 +114,6 @@ class ReminderController extends Controller
 
         return redirect()->route('reminders.index')->with('success', 'Reminder updated successfully.');
     }
-
 
     /**
      * Remove the specified resource from storage.

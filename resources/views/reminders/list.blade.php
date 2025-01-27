@@ -18,7 +18,17 @@
             @forelse ($reminders as $reminder)
                 <x-reminders.list-item :reminder="$reminder" :labels="$labels"/>
             @empty
-                No reminders found. Click "Create New Reminder" to add one!
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+                    <p class="text-gray-700 dark:text-gray-300">
+                        No reminders found. Click "Create New Reminder" to add one or reset the filters.
+                    </p>
+                    <div class="flex justify-end items-end w-full">
+                        <a href="{{ route('reminders.index') }}"
+                           class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded-md">
+                            Reset filters
+                        </a>
+                    </div>
+                </div>
             @endforelse
         </div>
     </div>

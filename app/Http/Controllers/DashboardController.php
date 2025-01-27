@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Label;
-use Illuminate\Http\Request;
 use App\Models\Reminder;
+use Log;
 
 class DashboardController extends Controller
 {
@@ -13,6 +12,7 @@ class DashboardController extends Controller
     {
         $reminders = Reminder::where('user_id', auth()->id())
             ->with('labels')
+            ->orderBy('due_date')
             ->get()
             ->map(function ($reminder) {
                 return [
@@ -28,10 +28,9 @@ class DashboardController extends Controller
             });
 
         $labels = Label::all();
+        Log::info($reminders);
 
         return view('dashboard', ['events' => $reminders], compact('reminders', 'labels'));
     }
-
-
 }
 

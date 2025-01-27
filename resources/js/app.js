@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Verifica si window.reminders está definido
     const reminders = window.reminders || [];
-    debugger;
     console.log(reminders); // Muestra los datos cargados desde Blade
 
     // Inicializa el calendario

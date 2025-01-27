@@ -24,6 +24,7 @@
             <!-- Include Componente del formulario -->
         <x-reminders.form
             :action="route('reminders.store')"
+            :method="'POST'"
             :on-submit="'showForm = false'"
             :on-cancel="'showForm = false'"
             :submit-label="__('Create')"

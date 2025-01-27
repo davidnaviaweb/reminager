@@ -14,4 +14,4 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-Route::resource('reminders', ReminderController::class);
+Route::resource('reminders', ReminderController::class)->except(['show']);

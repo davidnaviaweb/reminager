@@ -1,6 +1,7 @@
 <div>
-    <form action="{{ $action }}" method="POST" @submit="{{ $onSubmit }}">
+    <form action="{{ $action }}" method="POST" onsubmit="{{ $onSubmit }}">
         @csrf
+        @method($method)
         <div class="flex flex-wrap gap-1 justify-between">
             <div class="mb-4 w-1/3 flex-grow flex-shrink-0">
                 <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
@@ -77,20 +78,26 @@
                 </div>
             </div>
         </div>
-
-        @if($reminder->id === 0)
-            <!-- Botones -->
-            <div class="flex justify-end gap-2">
+        <div class="flex justify-start gap-2">
+            @if($reminder->id === 0)
                 <button type="submit"
-                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm flex items-start justify-center shadow">
+                    <x-heroicon-m-document-check class="w-4 h-4 mr-1"/>
                     {{ $submitLabel }}
                 </button>
-                <button type="button" @click="{{ $onCancel }}"
-                        class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded">
-                    {{ __('Cancel') }}
+            @else
+                <button type="submit"
+                        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded text-sm flex items-start justify-center shadow">
+                    <x-heroicon-m-check-circle class="w-4 h-4 mr-1"/>
+                    Save
                 </button>
-            </div>
-        @endif
+            @endif
+            <button type="button" @click="{{ $onCancel }}"
+                    class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded text-sm flex items-start justify-center shadow">
+                    <x-heroicon-m-x-circle class="w-4 h-4 mr-1"/>
+                {{ __('Cancel') }}
+            </button>
+        </div>
     </form>
 </div>
 <script>

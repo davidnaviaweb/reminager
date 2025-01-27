@@ -37,8 +37,9 @@
     <template x-if="isEditing">
         <x-reminders.form
             :action="route('reminders.update', $reminder->id)"
-            :on-submit="'showForm = false'"
-            :on-cancel="'showForm = false'"
+            :method="'PUT'"
+            :on-submit="'isEditing = false'"
+            :on-cancel="'isEditing = false'"
             :submit-label="__('Update')"
             :reminder="$reminder"
             :labels="$labels"
@@ -46,32 +47,11 @@
     </template>
 
     <div class="flex gap-2">
-        <!-- Botón Editar -->
         <button @click="isEditing = true" x-show="!isEditing"
                 class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm flex items-start justify-center shadow">
             <x-heroicon-s-pencil-square class="w-4 h-4 mr-1"/>
             Edit
         </button>
-
-        <!-- Botón Cancelar -->
-        <button @click="isEditing = false" x-show="isEditing"
-                class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded text-sm flex items-start justify-center shadow">
-            Cancel
-        </button>
-
-        <!-- Botón Guardar -->
-        <form action="{{ route('reminders.update', $reminder->id) }}" method="POST" x-show="isEditing"
-              class="inline">
-            @csrf
-            @method('PUT')
-            <button type="submit"
-                    class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded text-sm flex items-start justify-center shadow">
-                <x-heroicon-m-check-circle class="w-4 h-4 mr-1"/>
-                Save
-            </button>
-        </form>
-
-        <!-- Botón Eliminar -->
         <form action="{{ route('reminders.destroy', $reminder->id) }}" method="POST" x-show="!isEditing"
               class="inline">
             @csrf
