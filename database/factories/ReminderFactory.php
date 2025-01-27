@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\ReminderPriority;
+use App\Enums\ReminderStatus;
+use App\Enums\ReminderType;
 use App\Models\Label;
 use App\Models\Reminder;
 use App\Models\User;
@@ -19,9 +22,9 @@ class ReminderFactory extends Factory
         return [
             'name' => $this->faker->name,
             'description' => $this->faker->sentence,
-            'type' => $this->faker->randomElement(['Task', 'Event']),
-            'priority' => $this->faker->randomElement(['High', 'Medium', 'Low']),
-            'status' => $this->faker->randomElement(['Completed', 'In progress', 'Pending']),
+            'type' => $this->faker->randomElement(ReminderType::getValues()),
+            'priority' => $this->faker->randomElement(ReminderPriority::getValues()),
+            'status' => $this->faker->randomElement(ReminderStatus::getValues()),
             'due_date' => $this->faker->dateTimeBetween('now', '+1 month'),
             'user_id' => User::inRandomOrder()->first()->id,
         ];

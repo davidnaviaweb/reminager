@@ -24,10 +24,7 @@
                     </div>
                     <div class="flex flex-col w-1/4 items-center justify-start">
                         <h4 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">Status</h4>
-                        <p class="px-2 py-1 inline-block rounded text-white"
-                           style="background-color: {{ $reminder->status === 'Completed' ? '#28a745' : ($reminder->status === 'In progress' ? '#ffc107' : '#dc3545') }}">
-                            {{ $reminder->status }}
-                        </p>
+                        <x-reminders.status-badge :status="$reminder->status"/>
                     </div>
                     <div class="flex flex-col w-1/2 items-center justify-start">
                         <h4 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">Labels</h4>
