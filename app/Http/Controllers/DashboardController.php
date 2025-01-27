@@ -16,14 +16,16 @@ class DashboardController extends Controller
             ->get()
             ->map(function ($reminder) {
                 return [
+                    'id' => $reminder->id,
                     'title' => $reminder->name,
                     'description' => $reminder->description,
                     'type' => $reminder->type,
                     'priority' => $reminder->priority,
                     'status' => $reminder->status,
-                    'start' => \Carbon\Carbon::parse($reminder->due_date)->toIso8601String(), // Formato ISO
+                    'start' => \Carbon\Carbon::parse($reminder->due_date)->toIso8601String(),
+                    'time' => \Carbon\Carbon::parse($reminder->due_date)->format('H:i'),
                     'end' => $reminder->end_date ? \Carbon\Carbon::parse($reminder->end_date)->toIso8601String() : null,
-                    'labels' => $reminder->labels->pluck('name')->toArray(),
+                    'labels' => $reminder->labels->toArray(),
                 ];
             });
 

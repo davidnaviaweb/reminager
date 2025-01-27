@@ -118,6 +118,15 @@ class ReminderController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function show(Reminder $reminder)
+    {
+        return view('reminders.show', compact('reminder'));
+    }
+
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Reminder $reminder)
