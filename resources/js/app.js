@@ -42,8 +42,6 @@ document.addEventListener('livewire:navigated', () => {
                     <span class="text-xs">${label.name}</span>
                 </span>`;
                     });
-                    debugger;
-
                     // Retornar el HTML del evento
                     return {
                         html: `<div class="flex flex-col flex-wrap bg-gray-300 dark:bg-gray-700 overflow-hidden space-y-1 w-full p-1 mb-4 rounded">
@@ -55,14 +53,6 @@ document.addEventListener('livewire:navigated', () => {
                             </div>`,
                     };
                 },
-                // eventClick: function (info) {
-                //     alert(
-                //         'Event: ' +
-                //         info.event.title +
-                //         '\nDescription: ' +
-                //         info.event.extendedProps.description
-                //     );
-                // }
             });
 
             // Filtrar por Prioridad

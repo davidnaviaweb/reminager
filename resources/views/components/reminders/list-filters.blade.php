@@ -82,7 +82,7 @@ use App\Enums\ReminderType;
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('livewire:navigated', () => {
         const filters = document.querySelectorAll('#label_filter, #type_filter, #priority_filter, #status_filter, #sort_by');
 
         filters.forEach(filter => {
