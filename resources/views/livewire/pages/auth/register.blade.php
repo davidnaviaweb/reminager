@@ -38,6 +38,11 @@ new #[Layout('layouts.guest')] class extends Component
 
 <div>
     <form wire:submit="register">
+
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight my-4 text-center">
+            {{ __('Register') }}
+        </h2>
+
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />

@@ -15,17 +15,17 @@ class DashboardController extends Controller
             ->orderBy('due_date')
             ->get()
             ->map(function ($reminder) {
+                $start = \Carbon\Carbon::parse($reminder->due_date)->toIso8601String();
+                $end = $reminder->end_date ? \Carbon\Carbon::parse($reminder->end_date)->toIso8601String() : null;
+                $time = \Carbon\Carbon::parse($reminder->due_date)->format('H:i');
                 return [
                     'id' => $reminder->id,
                     'title' => $reminder->name,
-                    'description' => $reminder->description,
-                    'type' => $reminder->type,
+                    'start' => $start,
+                    'end' => $end,
+                    'time' => $time,
                     'priority' => $reminder->priority,
-                    'status' => $reminder->status,
-                    'start' => \Carbon\Carbon::parse($reminder->due_date)->toIso8601String(),
-                    'time' => \Carbon\Carbon::parse($reminder->due_date)->format('H:i'),
-                    'end' => $reminder->end_date ? \Carbon\Carbon::parse($reminder->end_date)->toIso8601String() : null,
-                    'labels' => $reminder->labels->toArray(),
+                    'html' => view('components.reminders.calendar-event', compact('reminder', 'time'))->render()
                 ];
             });
 

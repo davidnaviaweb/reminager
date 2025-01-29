@@ -26,6 +26,9 @@ new #[Layout('layouts.guest')] class extends Component {
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')"/>
 
+    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight my-4 text-center">
+        {{ __('Sign in') }}
+    </h2>
 
     <form wire:submit="login">
         <!-- Email Address -->
