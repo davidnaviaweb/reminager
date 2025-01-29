@@ -1,6 +1,6 @@
 <div x-data="{ isEditing: false }">
-    <div class="flex gap-8 mb-20">
-        <div class="w-1/2">
+    <div class="flex flex-col sm:flex-row gap-8 mb-10 sm:mb-20">
+        <div class="w-full sm:w-1/2">
             <h3 class="flex items-center text-2xl font-semibold text-gray-950 dark:text-gray-50 gap-2 mb-4">
                 <x-reminders.type-badge :type="$reminder->type"/>
                 {{ $reminder->name }}
@@ -15,7 +15,7 @@
                 {{ $reminder->description ?? 'No description provided.' }}
             </p>
         </div>
-        <div class="flex w-1/2 gap-4 mb-6">
+        <div class="flex w-full sm:w-1/2 gap-4 border-t sm:border-none pt-6 sm:pt-0">
             <div class="flex flex-col w-1/4 items-center justify-start">
                 <h4 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">Priority</h4>
                 <x-reminders.priority-badge :priority="$reminder->priority"/>
