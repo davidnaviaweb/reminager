@@ -16,12 +16,14 @@ return new class extends Migration
     {
         Schema::create('reminders', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
+            $table->string('title');
+            $table->text('description')->nullable();
             $table->enum('type', array_column(ReminderType::cases(), 'value'))->default(ReminderType::TASK->value);
             $table->enum('priority', array_column(ReminderPriority::cases(), 'value'))->default(ReminderPriority::MEDIUM->value);
             $table->enum('status', array_column(ReminderStatus::cases(), 'value'))->default(ReminderStatus::PENDING->value);
-            $table->dateTimeTz('due_date');
+            $table->dateTimeTz('due_date')->nullable();
+            $table->dateTimeTz('start_date')->nullable();
+            $table->dateTimeTz('end_date')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

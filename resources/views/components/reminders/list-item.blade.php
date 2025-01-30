@@ -13,10 +13,9 @@
             :labels="$labels"
         />
     </template>
-
-    <div class="flex gap-2">
+    <div class="flex justify-end gap-2">
         <button @click="isEditing = true" x-show="!isEditing"
-                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm flex items-start justify-center shadow">
+                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm flex items-center justify-center shadow">
             <x-heroicon-s-pencil-square class="w-4 h-4 mr-1"/>
             Edit
         </button>
@@ -25,7 +24,7 @@
             @csrf
             @method('DELETE')
             <button type="submit"
-                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded text-sm flex items-start justify-center shadow">
+                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded text-sm flex items-center justify-center shadow">
                 <x-heroicon-c-trash class="w-4 h-4 mr-1"/>
                 Delete
             </button>
@@ -37,10 +36,8 @@
         const selectedLabelsContainer = document.getElementById(`selected-labels-${reminderId}`);
         selectedLabelsContainer.innerHTML = '';
 
-        // Obtener todos los checkboxes seleccionados
         const selectedCheckboxes = document.querySelectorAll(`#labels-edit-menu-${reminderId} input[name="labels[]"]:checked`);
 
-        // Crear badges para cada etiqueta seleccionada
         selectedCheckboxes.forEach(checkbox => {
             const labelBadge = checkbox.nextElementSibling.querySelector('span');
             const badge = document.createElement('span');

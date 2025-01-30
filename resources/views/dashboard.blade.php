@@ -30,9 +30,9 @@ use App\Enums\ReminderType;
                                     class="px-4 py-2 border rounded-md focus:ring focus:ring-blue-500 min-w-40">
                                 <option value="">Filter by priority</option>
                                 @foreach(ReminderPriority::getValues() as $priority)
-                                    <option value="{{ $priority->value }}"
-                                        {{ request('priority') ==  $priority->value ? 'selected' : '' }}>
-                                        {{ ReminderPriority::getConfig( $priority->value)['label'] }}
+                                    <option value="{{ $priority }}"
+                                        {{ request('priority') ==  $priority ? 'selected' : '' }}>
+                                        {{ ReminderPriority::getConfig( $priority)['label'] }}
                                     </option>
                                 @endforeach
                             </select>

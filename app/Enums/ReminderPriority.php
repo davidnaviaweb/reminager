@@ -4,9 +4,9 @@ namespace App\Enums;
 
 enum ReminderPriority: string
 {
-    case HIGH = '1000';
-    case MEDIUM = '100';
     case LOW = '10';
+    case MEDIUM = '100';
+    case HIGH = '1000';
 
     /**
      * @param string $value
@@ -16,20 +16,20 @@ enum ReminderPriority: string
     public static function getConfig(string $value): array
     {
         return match ($value) {
-            self::HIGH->value => [
-                'color' => '#ff4d4d',
-                'text' => '!!!',
-                'label' => 'High',
+            self::LOW->value => [
+                'color' => '#5cb85c',
+                'text' => '!',
+                'label' => 'Low',
             ],
             self::MEDIUM->value => [
                 'color' => '#ffcc00',
                 'text' => '!!',
                 'label' => 'Medium',
             ],
-            self::LOW->value => [
-                'color' => '#5cb85c',
-                'text' => '!',
-                'label' => 'Low',
+            self::HIGH->value => [
+                'color' => '#ff4d4d',
+                'text' => '!!!',
+                'label' => 'High',
             ],
             default => [
                 'color' => 'gray',
@@ -45,18 +45,18 @@ enum ReminderPriority: string
     public static function getValues(): array
     {
         return [
-            self::HIGH,
-            self::MEDIUM,
-            self::LOW,
+            self::LOW->value,
+            self::MEDIUM->value,
+            self::HIGH->value,
         ];
     }
 
     /**
      * @return bool
      */
-    public function isHigh(): bool
+    public function isLow(): bool
     {
-        return $this->value == self::HIGH;
+        return $this->value == self::LOW;
     }
 
     /**
@@ -70,8 +70,8 @@ enum ReminderPriority: string
     /**
      * @return bool
      */
-    public function isLow(): bool
+    public function isHigh(): bool
     {
-        return $this->value == self::LOW;
+        return $this->value == self::HIGH;
     }
 }

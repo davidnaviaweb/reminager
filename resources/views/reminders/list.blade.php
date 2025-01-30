@@ -7,10 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Componente para crear un nuevo recordatorio -->
             <x-reminders.new-item :labels="$labels"/>
-
-            <!-- Include the reminder filters component -->
             @if($reminders->isNotEmpty())
                 <x-reminders.list-filters :labels="$labels"/>
             @endif

@@ -38,9 +38,9 @@ enum ReminderStatus: string
     public static function getValues(): array
     {
         return [
-            self::COMPLETED,
-            self::IN_PROGRESS,
-            self::PENDING,
+            self::PENDING->value,
+            self::IN_PROGRESS->value,
+            self::COMPLETED->value,
         ];
     }
 

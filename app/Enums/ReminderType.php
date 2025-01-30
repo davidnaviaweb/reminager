@@ -16,7 +16,7 @@ enum ReminderType: string
     {
         return match ($value) {
             self::TASK->value => ['label' => 'Task', 'icon' => 'c-pencil-square'],
-            self::EVENT->value => ['label' => 'Event', 'icon' => 'c-calendar'],
+            self::EVENT->value => ['label' => 'Event', 'icon' => 's-calendar'],
             default => throw new \Exception('Unexpected match value'),
         };
     }
@@ -27,8 +27,8 @@ enum ReminderType: string
     public static function getValues(): array
     {
         return [
-            self::TASK,
-            self::EVENT,
+            self::TASK->value,
+            self::EVENT->value,
         ];
     }
 

@@ -22,6 +22,7 @@ document.addEventListener('livewire:navigated', () => {
                 editable: false,
                 selectable: false,
                 expandRows: true,
+                eventClassNames: ['bg-gray-200', 'dark:bg-gray-700', 'flex-1', 'overflow-hidden', 'py-1', 'px-2', 'rounded', 'cursor-pointer', 'mb-2', 'border-transparent'],
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',

@@ -19,15 +19,30 @@ class ReminderFactory extends Factory
 
     public function definition()
     {
-        return [
-            'name' => $this->faker->name,
+        $type = $this->faker->randomElement(ReminderType::getValues());
+
+        $return = [
+            'title' => $this->faker->name,
             'description' => $this->faker->sentence,
-            'type' => $this->faker->randomElement(ReminderType::getValues()),
+            'type' => $type,
             'priority' => $this->faker->randomElement(ReminderPriority::getValues()),
             'status' => $this->faker->randomElement(ReminderStatus::getValues()),
-            'due_date' => $this->faker->dateTimeBetween('now', '+1 month'),
             'user_id' => User::inRandomOrder()->first()->id,
         ];
+
+        if ($type === ReminderType::TASK->value) {
+            $dueDateTime = $this->faker->dateTimeBetween('-1 month', '+2 month')->format('Y-m-d H:i');
+            $return['due_date'] = $dueDateTime;
+            $return['start_date'] = $dueDateTime;
+            $return['end_date'] = $dueDateTime;
+        } else {
+            $return['start_date'] = $this->faker->dateTimeBetween('-1 month', '+2 month')->format('Y-m-d H:i');
+            $endDateTime = $this->faker->dateTimeBetween($return['start_date'], $return['start_date'] . ' +2 days')->format('Y-m-d H:i');
+            $return['end_date'] = $endDateTime;
+            $return['due_date'] = $endDateTime;
+        }
+
+        return $return;
     }
 
     public function configure()

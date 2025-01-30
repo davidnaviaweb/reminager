@@ -10,12 +10,14 @@ class Reminder extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'title',
         'description',
         'type',
         'priority',
         'status',
         'due_date',
+        'start_date',
+        'end_date',
         'user_id',
     ];
 

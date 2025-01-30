@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ReminderPriority;
+use App\Enums\ReminderStatus;
+use App\Enums\ReminderType;
 use App\Models\Label;
 use App\Models\Reminder;
 use Illuminate\Http\Request;
@@ -17,7 +20,7 @@ class ReminderController extends Controller
 
         if ($request->filled('label')) {
             $query->whereHas('labels', function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->label . '%');
+                $q->where('title', 'like', '%' . $request->label . '%');
             });
         }
 
@@ -33,7 +36,7 @@ class ReminderController extends Controller
             $query->where('status', $request->status);
         }
 
-        if($request->filled('sort')) {
+        if ($request->filled('sort')) {
             $sort = explode('.', $request->sort);
             $query->orderBy($sort[0], $sort[1]);
         }
@@ -54,18 +57,11 @@ class ReminderController extends Controller
     {
         \Log::info('Datos recibidos en store:', $request->all());
 
-        $request->merge(['user_id' => auth()->id()]);
+        $request->merge(['user_id' => auth()->id(), 'status' => ReminderStatus::PENDING->value]);
 
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'type' => 'required|in:Task,Event',
-            'priority' => 'required|in:High,Medium,Low',
-            'status' => 'required|in:Completed,In progress,Pending',
-            'due_date' => 'required|date',
-            'labels' => 'nullable|array',
-            'labels.*' => 'integer|exists:labels,id',
-        ]);
+        \Log::info('Request:', $request->all());
+
+        $validatedData = $this->validateRequest($request);
 
         \Log::info('Datos validados en store:', $validatedData);
 
@@ -86,17 +82,7 @@ class ReminderController extends Controller
     {
         \Log::info('Datos recibidos para actualizar:', $request->all());
 
-        // Validar los datos del request
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'type' => 'required|in:Task,Event',
-            'priority' => 'required|in:High,Medium,Low',
-            'status' => 'required|in:Completed,In progress,Pending',
-            'due_date' => 'required|date',
-            'labels' => 'nullable|array',
-            'labels.*' => 'integer|exists:labels,id',
-        ]);
+        $validatedData = $this->validateRequest($request);
 
         \Log::info('Datos validados para actualizar:', $validatedData);
 
@@ -134,5 +120,36 @@ class ReminderController extends Controller
         $reminder->delete();
 
         return redirect()->route('reminders.index')->with('success', 'Reminder deleted successfully.');
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    private function validateRequest(Request $request): array
+    {
+        $validation = [
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'type' => 'required|in:' . implode(',', ReminderType::getValues()),
+            'priority' => 'required|in:' . implode(',', ReminderPriority::getValues()),
+            'status' => 'required|in:' . implode(',', ReminderStatus::getValues()),
+            'due_date' => 'required|date',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'labels' => 'nullable|array',
+            'labels.*' => 'integer|exists:labels,id',
+            'user_id' => 'integer|exists:users,id',
+        ];
+
+        if ($request->filled('type')) {
+            if ($request->type == ReminderType::TASK->value) {
+                $request->merge(['start_date' => $request->due_date, 'end_date' => $request->due_date]);
+            } else {
+                $request->merge(['due_date' => $request->end_date]);
+            }
+        }
+
+        return $request->validate($validation);
     }
 }
