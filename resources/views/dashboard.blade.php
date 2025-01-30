@@ -48,20 +48,6 @@ use App\Enums\ReminderType;
                             </select>
                         </div>
                         <div id="calendar" class="text-gray-900 dark:text-gray-100 mt-8 text-sm h-screen"></div>
-                        <template id="singleEventModal">
-                            <div id="event-modal" tabindex="-1" aria-hidden="true"
-                                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
-                                @php
-                                    $reminder = new \App\Models\Reminder();
-                                    $reminder->id = 0;
-                                    $reminder->type = 'task';
-                                    $reminder->priority = 10;
-                                    $reminder->status = 'completed';
-                                    $reminder->due_date = now()->addDay()->format('Y-m-d\TH:i');
-                                @endphp
-                                <x-reminders.single-item :reminder="$reminder"/>
-                            </div>
-                        </template>
                     </div>
                 </div>
             </div>

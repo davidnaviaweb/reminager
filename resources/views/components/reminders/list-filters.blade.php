@@ -59,10 +59,10 @@ use App\Enums\ReminderType;
                     class="px-4 py-2 border rounded-md focus:ring focus:ring-blue-500 min-w-48">
                 <option value="">Sort by</option>
                 <option value="due_date.asc"
-                    {{ request('sort') == 'due_date.asc' ? 'selected' : '' }}>Due date (soonest)
+                    {{ request('sort') == 'due_date.asc' ? 'selected' : '' }}>Date (soonest)
                 </option>
                 <option value="due_date.desc"
-                    {{ request('sort') == 'due_date.desc' ? 'selected' : '' }}>Due date (latest)
+                    {{ request('sort') == 'due_date.desc' ? 'selected' : '' }}>Date (latest)
                 </option>
                 <option value="priority.asc"
                     {{ request('sort') == 'priority.asc' ? 'selected' : '' }}>Priority (high to low)

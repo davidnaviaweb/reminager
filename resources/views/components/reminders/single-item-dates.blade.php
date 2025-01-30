@@ -36,7 +36,7 @@ $isOverdue = isset($reminder->due_date) &&
                 </span>
             </div>
         </div>
-        <div class="flex items-center sm:items-start sm:flex-col md:flex-row gap-2 {{$isEventOverdue ? 'text-red-800 dark:text-red-400' : 'text-gray-700 dark:text-gray-300'}}">
+        <div class="flex items-center sm:items-start sm:flex-col md:flex-row gap-2 {{$isOverdue ? 'text-red-800 dark:text-red-400' : 'text-gray-700 dark:text-gray-300'}}">
             <span class="mr-2">{{__('Until')}}:</span>
             <div class="flex gap-2">
                 <x-heroicon-c-calendar-days class="w-6 h-6 "/>

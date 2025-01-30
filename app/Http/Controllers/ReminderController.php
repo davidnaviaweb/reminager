@@ -108,7 +108,8 @@ class ReminderController extends Controller
      */
     public function show(Reminder $reminder)
     {
-        return view('reminders.show', compact('reminder'));
+        $labels = Label::all();
+        return view('reminders.show', compact('reminder', 'labels'));
     }
 
 

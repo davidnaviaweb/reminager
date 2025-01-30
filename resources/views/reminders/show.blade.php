@@ -6,14 +6,12 @@
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-                <x-reminders.single-item :reminder="$reminder"/>
-                <div class="flex justify-end">
-                    <a href="{{route('dashboard')}}" wire:navigate
-                       class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded">
-                        {{__('Go back')}}
-                    </a>
-                </div>
+            <x-reminders.list-item :reminder="$reminder" :labels="$labels"/>
+            <div class="flex justify-end">
+                <a href="{{route('dashboard')}}" wire:navigate
+                   class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded">
+                    {{__('Go back')}}
+                </a>
             </div>
         </div>
     </div>

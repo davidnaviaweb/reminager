@@ -10,7 +10,7 @@ $isOverdue = isset($reminder->due_date) &&
 <div x-data="{ isEditing: false }">
     <div class="flex flex-col items-start sm:flex-row gap-8 mb-10 sm:mb-20">
         <div class="w-full lg:w-1/2">
-            <h3 class="flex items-center text-3xl font-semibold text-gray-900 dark:text-gray-100 gap-2 mb-4 truncate">
+            <h3 class="flex items-center text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-gray-100 gap-2 mb-4 truncate">
                 <x-reminders.type-badge :type="$reminder->type"/>
                 {{ $reminder->title }}
                 @if($isOverdue)
