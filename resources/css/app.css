@@ -27,3 +27,7 @@
             -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
         }
 }
+
+.fc-event{
+    background-color: transparent !important;
+}

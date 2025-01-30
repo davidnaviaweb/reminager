@@ -31,6 +31,8 @@ class DashboardController extends Controller
                 }
 
                 $time = \Carbon\Carbon::parse($reminder->due_date)->format('H:i');
+                $isCompleted = $reminder->status == \App\Enums\ReminderStatus::COMPLETED->value;
+                $class = $isOverdue ? 'bg-red-800 dark:bg-red-500' : ($isCompleted ? 'bg-green-800 dark:bg-green-600' : 'bg-gray-200 dark:bg-gray-700');
 
                 return [
                     'id' => $reminder->id,
@@ -39,6 +41,7 @@ class DashboardController extends Controller
                     'end' => $end,
                     'time' => $time,
                     'isOverdue' => $isOverdue,
+                    'containerClass' => $class . ' rounded w-full py-1 px-2',
                     'priority' => $reminder->priority,
                     'html' => view('components.reminders.calendar-event', compact('reminder', 'time'))->render()
                 ];

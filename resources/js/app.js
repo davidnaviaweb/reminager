@@ -22,15 +22,16 @@ document.addEventListener('livewire:navigated', () => {
                 editable: false,
                 selectable: false,
                 expandRows: true,
-                eventClassNames: ['bg-gray-200', 'dark:bg-gray-700', 'flex-1', 'overflow-hidden', 'py-1', 'px-2', 'rounded', 'cursor-pointer', 'mb-2', 'border-transparent'],
+                eventClassNames: ['flex-1', 'overflow-hidden', 'bg-transparent','!p-0', '!m-0', 'cursor-pointer', 'mb-2', 'border-transparent'],
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,dayGridWeek'
                 },
                 eventContent: function (arg) {
+                    const {containerClass} = arg.event.extendedProps;
                     return {
-                        html: arg.event.extendedProps.html,
+                        html: `<div class="${containerClass}">` + arg.event.extendedProps.html + '</div>',
                     };
                 },
             });
