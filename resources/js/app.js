@@ -17,6 +17,7 @@ document.addEventListener('livewire:navigated', () => {
     calendar = new Calendar(calendarEl, {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: 'dayGridMonth',
+        firstDay: 1,
         events: reminders, // Usa los datos cargados desde Blade
         editable: false,
         selectable: false,
