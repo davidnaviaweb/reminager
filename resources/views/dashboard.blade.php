@@ -60,5 +60,5 @@ use App\Enums\ReminderType;
     </script>
 
     <!-- Incluye el archivo compilado con Vite -->
-    @vite(['resources/js/app.js?v=' . time()])
+    @vite(['resources/js/app.js'])
 </x-app-layout>
