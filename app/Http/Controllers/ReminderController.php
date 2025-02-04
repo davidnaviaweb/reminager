@@ -20,7 +20,7 @@ class ReminderController extends Controller
 
         if ($request->filled('label')) {
             $query->whereHas('labels', function ($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->label . '%');
+                $q->where('name', 'like', '%' . $request->label . '%');
             });
         }
 
